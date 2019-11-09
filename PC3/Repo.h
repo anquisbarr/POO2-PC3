@@ -23,23 +23,24 @@ protected:
     Deserializador<T*> deserializador;
     vector <T>* items;
 public:
-    Repo(const string& separator);
+    Repo(string separator);
     Repo* insert(T item);
-    //function<T*(string)> deserializador;
-    //function<T*(string)> serializador;
     Repo<T>* load_from(string fileName, function<T*(string)> deserializer);
     vector <T>* order_by(function<bool (T,T)> compare);
-    Repo<T>* save_to(string fileName, function<bool(T*)>where,function<bool(T*,T*)> serializer){}
+    Repo<T>* select(string fileName, function<bool(T*)>where, function<bool(T*,T*)> serializer);
+    Repo<T>* save(string fileName, function<string (T*)> serializer);
+    Repo<T>* save_to(string fileName, function<bool(T*)>where,function<bool(T*,T*)> serializer);
     void select_and_save(string fileName,function<bool(T*)> where, function<bool(T*,T*)> order_by,function <string (T*)> serializer);
-    unsigned int count (function<bool (T*)> where){}
-    T* min(function<bool (T*)> where, function<bool (T*,T*)> comp){}
-    T* max(function<bool (T*)> where, function<bool (T*,T*)> comp){}
-    double sum(function<bool (T*)> where, function<bool (T*,T*)> comp){}
+    unsigned int count (function<bool (T*)> where);
+    T* min(function<bool (T*)> where, function<bool (T*,T*)> comp);
+    T* max(function<bool (T*)> where, function<bool (T*,T*)> comp);
+    double sum(function<bool (T*)> where, function<bool (T*,T*)> comp);
+    int partition(int start, int final);
     virtual ~Repo();
 };
 
 template <class T>
-Repo<T>::Repo(const string& separator) {
+Repo<T>::Repo(string separator) {
     serializador = new serializadorCountry<T>();
     deserializador = new deserializadorCountry();
     string fileName = "commodity_trade.csv";
@@ -48,8 +49,8 @@ Repo<T>::Repo(const string& separator) {
     getline(*archivo,linea);
     if(archivo){
         while(getline(*archivo,linea)){
-            Country* country = deserializador.Deserializar(linea,separator);
-            deserializador.getElementos()->push_back(country);
+            Country* country = deserializador->Deserializar(linea,separator);
+            deserializador->getElementos()->push_back(country);
         }
         archivo->close();
     }
@@ -78,13 +79,61 @@ vector <T>* Repo<T>::order_by(function<bool(T, T)> compare) {
 }
 
 template <class T>
-void Repo<T>::select_and_save(string fileName, function<bool(T *)> where, function<bool(T *, T *)> order_by,
-                           function<string(T *)> serializer) {
+Repo<T>* Repo<T>::select(string fileName, function<bool(T *)> where, function<bool(T *, T *)> serializer) {
     vector <T*> result = new vector <T>();
     for (auto item: *items){
         if(where(item))
             result->push_back(item);
     }
+}
+
+template <class T>
+Repo<T>* Repo<T>::save(string fileName, function<string (T*)> serializer) {
+    fstream* archivo = new fstream(fileName,ios_base::out);
+    if (archivo){
+        for (Country* country: *deserializador->getElementos()){
+            *archivo << serializer(country,",");
+        }
+    }
+}
+
+template <class T>
+void Repo<T>::select_and_save(string fileName, function<bool(T *)> where, function<bool(T *, T *)> order_by,function<string(T *)> serializer) {
+    auto temp = new vector<T*>();
+    temp = this->select(where,order_by);
+    fstream* file = new fstream(fileName,ios_base::out);
+}
+
+template <class T>
+unsigned int Repo<T>::count(function<bool(T *)> where) {
+    int quantity = 0;
+    for (auto item: *items){
+        if(where(item)){
+            quantity++;
+        }
+    }
+    return quantity;
+}
+
+template <class T>
+T* Repo<T>::min(function<bool(T *)> where, function<bool(T *, T *)> comp) {
+    /*int min = 0;
+    for(auto item:*items){
+        if(where(item)){
+            if(comp(*item,*item)
+               //swap(min,*item);
+        }
+    }*/
+}
+
+template <class T>
+T* Repo<T>::max(function<bool(T *)> where, function<bool(T *, T *)> comp) {
+
+}
+
+template <class T>
+double Repo<T>::sum(function<bool(T *)> where, function<bool(T *, T *)> comp) {
+
 }
 
 template<class T>

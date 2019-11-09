@@ -23,6 +23,8 @@ functional
 -
 algorithm
 -
+fstream
+-
 serializadorCountry.h
 C:/Users/Sebastian Q.B/CLionProjects/PC3/serializadorCountry.h
 deserializadorCountry.h
