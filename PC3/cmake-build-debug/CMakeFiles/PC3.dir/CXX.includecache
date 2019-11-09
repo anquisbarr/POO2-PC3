@@ -1,0 +1,62 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Sebastian Q.B/CLionProjects/PC3/Country.h
+iostream
+-
+string
+-
+
+C:/Users/Sebastian Q.B/CLionProjects/PC3/Repo.h
+iostream
+-
+vector
+-
+string
+-
+functional
+-
+algorithm
+-
+serializadorCountry.h
+C:/Users/Sebastian Q.B/CLionProjects/PC3/serializadorCountry.h
+deserializadorCountry.h
+C:/Users/Sebastian Q.B/CLionProjects/PC3/deserializadorCountry.h
+
+C:/Users/Sebastian Q.B/CLionProjects/PC3/deserializador.h
+iostream
+-
+vector
+-
+
+C:/Users/Sebastian Q.B/CLionProjects/PC3/deserializadorCountry.h
+deserializador.h
+C:/Users/Sebastian Q.B/CLionProjects/PC3/deserializador.h
+Country.h
+C:/Users/Sebastian Q.B/CLionProjects/PC3/Country.h
+sstream
+-
+
+C:/Users/Sebastian Q.B/CLionProjects/PC3/main.cpp
+Repo.h
+C:/Users/Sebastian Q.B/CLionProjects/PC3/Repo.h
+
+C:/Users/Sebastian Q.B/CLionProjects/PC3/serializador.h
+iostream
+-
+vector
+-
+
+C:/Users/Sebastian Q.B/CLionProjects/PC3/serializadorCountry.h
+serializador.h
+C:/Users/Sebastian Q.B/CLionProjects/PC3/serializador.h
+Country.h
+C:/Users/Sebastian Q.B/CLionProjects/PC3/Country.h
+sstream
+-
+
